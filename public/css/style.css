@@ -1,0 +1,68 @@
+/* =============================================================================
+   HTML5 CSS Reset Minified - Eric Meyer
+   ========================================================================== */
+
+
+
+/* =============================================================================
+   My CSS
+   ========================================================================== */
+
+
+
+.count-particles{
+  border-radius: 0 0 3px 3px;
+}
+
+/* ---- particles.js container ---- */
+
+#particles-js{
+  width: 100%;
+  height: 600px;
+  background:linear-gradient(80deg, #272f43,#cb7a29);
+  //background-image: url('');
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+
+/* ---- particle end ---- */
+
+.nav-container{
+  position:absolute;
+  padding: 10px;
+  height: 70px;
+  line-height:0px;
+  //background: rgba(200,0,0,0.2)
+}
+
+.nav-main li{
+  display:inline;
+  color: white;
+  line-height:70px;
+}
+.nav-main li a{
+  color:white;
+  padding: 10px 20px;
+  font-weight: 700;
+  display: inline;
+  cursor: pointer;
+  z-index: 999;
+}
+.nav-main li a:hover{
+  color:orange
+}
+.banner-content{
+  color: white;
+  padding: 10px;
+}
+
+.banner-content .abt{
+  text-align: center;
+  align-items: center;
+  margin-top: 100px;
+}
+.banner-content .abt h1{
+  font-size: 2.75em
+}
