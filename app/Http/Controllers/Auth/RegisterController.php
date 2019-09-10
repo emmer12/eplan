@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Roles;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Mail;
+use App\mail\verifyEmail;
 
 class RegisterController extends Controller
 {
@@ -20,6 +25,7 @@ class RegisterController extends Controller
     |
     */
 
+
     use RegistersUsers;
 
     /**
@@ -27,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -36,7 +42,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+      $this->middleware('guest');
+      $this->middleware('guest:admin');
     }
 
     /**
@@ -48,7 +55,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'lga' => 'required|string|max:255',
+            'fullname' => 'required|string|max:255',
+            'pNumber' => 'required|string|max:255',
+            'terms' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -62,10 +74,55 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user=User::create([
+            'type' => $data['type'],
+            'title' => $data['title'],
+            'lga' => $data['lga'],
+            'fullname' => $data['fullname'],
+            'username' => $data['username'],
+            'pNumber' => $data['pNumber'],
+            'confirmation_token' => Str::random(40),
+            'pNumber' => $data['pNumber'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        $user->roles()->attach(Roles::where('name','Public')->first());
+        $thisUser=User::findOrFail($user->id);
+        $this->sendEmail($thisUser);
+
+        return $user;
+
+    }
+
+
+
+    public function sendEmail($thisUser)
+    {
+      Mail::to($thisUser['email'])->send(new verifyEmail($thisUser));
+    }
+
+    public function verifyEmailFirst()
+    {
+      return view("email.verifyEmailFirst");
+    }
+
+    public function sendEmailDone($email,$confirmationToken,Request $request)
+    {
+      $user=User::where([
+        'email'=> substr($email,6),
+        'confirmation_token'=>substr($confirmationToken,18),
+      ])->first();
+      if ($user) {
+        User::where([
+          'email'=> substr($email,6),
+          'confirmation_token'=>substr($confirmationToken,18),
+        ])->update([
+          'isConfermed'=>1,
+          'confirmation_token'=>null
+        ]);
+        return view("email/verifySuccess")->with('success',"email verification successful");
+      }else {
+        return view("email/verifySuccess")->with("error","User not found");
+      }
     }
 }

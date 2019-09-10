@@ -1,77 +1,118 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+  @section('content')
+            <div class="container">
+              <div class="row ">
+                <div class="col-md-6 form-contain">
+                  <div class="form-header ">
+                     <div class="logo">e</div>
+                     <span>Register</span>
+                  </div>
+                  <form class="ui form attached fluid segment main-form " action="{{ route('register') }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="ui info message">
+                      <div class="header">Your Data</div>
+                      <p>Full details of how your data is used can be viewed in to <a href="#"> <b>private notice</b></a> on the website</p>
+                    </div>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+                    @if (session('msg'))
+                      <div class="ui success message">
+                        <div class="header">Message</div>
+                        <p>{{ session('msg') }}</p>
+                      </div>
+                    @endif
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                      <div class="field ">
+                        <label for="type">User Type</label>
+                        <select class="ui fluid dropdown {{ $errors->has('type') ? ' error' : '' }}" id="type" name="type">
+                          <option value="">Select user type</option>
+                          <option value="professional-user">Professional User</option>
+                          <option value="general-public-user">General Public User</option>
+                        </select>
                         </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                        <div class="two fields">
+                            <div class="field">
+                              <label for="title">Title</label>
+                              <select class="ui fluid dropdown" id="title" name="title">
+                                <option value="">Title</option>
+                                <option value="mr">Mr</option>
+                                <option value="mrs">mrs</option>
+                                <option value="miss">miss</option>
+                                <option value="others">others</option>
+                              </select>
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                              <div class="field">
+                                <label for="lga">LGA</label>
+                                <select class="ui fluid dropdown" name="lga" id="lga">
+                                  <option value="Akoko North-East">Akoko North-East</option>
+                                  <option value="Akoko South-East">Akoko South-East</option>
+                                  <option value="Akoko South-West">Akoko South-West</option>
+                                  <option value="Akoko North-West">Akoko North-West</option>
+                                  <option value="Akure North">Akure North</option>
+                                  <option value="Akure South">Akure South</option>
+                                  <option value="Ese Odo">Ese Odo</option>
+                                  <option value="Idanre">Idanre</option>
+                                  <option value="Ifedore">Ifedore</option>
+                                  <option value="IlajeEseodo">IlajeEseodo</option>
+                                  <option value="Irele">Irele</option>
+                                  <option value="Odigbo">Odigbo</option>
+                                  <option value="Okitipupa">Okitipupa</option>
+                                  <option value="Ondo East">Ondo East</option>
+                                  <option value="Ondo West">Ondo West</option>
+                                  <option value="Ose">Ose</option>
+                                  <option value="Owo">Owo</option>
+                                </select>
+                              </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                          <div class="field">
+                            <label>Fullname</label>
+                            <input type="text" name="fullname" placeholder="Fullname">
+                            <!-- <div class="ui basic red pointing prompt label transition ">Please enter a usernam</div> -->
+                          </div>
+                          <div class="field">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" placeholder="username">
+                          </div>
+                          <div class="field">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="example@mail.com">
+                          </div>
+                          <div class="field" for="phoneNo">
+                            <label>Phone number</label>
+                            <input type="number" name="pNumber" id="phoneNo" placeholder="Phone Number">
+                          </div>
+                          <div class="field" for="password">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="*******">
+                          </div>
+                          <div class="field" for="confirm">
+                            <label>Confirm Password </label>
+                            <input type="password" name="password_confirmation" id="confirm" placeholder="*******">
+                          </div>
+                          <div class="field">
+                            <div class="ui checkbox">
+                              <input type="checkbox" name="terms" tabindex="0" class="hidden">
+                              <label>I agree to the Terms and Conditions</label>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
-                        </div>
+                          </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+
+                        <button type="submit" class="ui submit button">Login</button>
+                        <div class="ui error message"></div>
+                  </form>
+                  <div class="ui bottom attached warning message">
+                    <i class="icon help"></i>Already signed up? <a href="/login">Login here</a> instead.
+                  </div>
+              </div>
+              </div>
             </div>
+
+          </div>
         </div>
+      </div>
     </div>
-</div>
-@endsection
+
+    <br><br>
+  @endsection
