@@ -137,6 +137,24 @@ Route::group(['middleware'=>'auth'],function () {
           'middleware'=>'roles',
           'roles'=>['Public','AreaOfficer']
         ]);
+      Route::get('/feedback/chat',[
+          'uses'=>'ApplicationController@getChat',
+          'as'=>'get.feedback.chat',
+
+        ]);
+
+      Route::post('/feedback/chat',[
+          'uses'=>'ApplicationController@feedbackChat',
+          'as'=>'feedback.chat',
+
+        ]);
+
+
+      Route::get('/redirect/to/admin/dashboard',[
+          'uses'=>'UserController@redirectFromNav',
+          'as'=>'dashboard.redirect',
+
+        ]);
 
     });
 

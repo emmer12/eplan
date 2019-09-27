@@ -32,7 +32,7 @@
                     <div class="app-state shadow-2 wrapper" style="background:white; padding:10px">
                       @if ($received)
                         <div style="display:none" class="ui right floated circular button green inverted app-fee">App Fees</div>
-                        <div style="display:none" class="ui circular button grey paygo"> <i class="handshake icon"></i> PayGo</div>
+                        <div style="display:none" class="ui circular button grey paygoclient"> <i class="handshake icon"></i> PayGo</div>
                         <div style="display:none" class="ui circular button green approved "><i class="check icon"></i> Approved</div>
                         <div style="display:none" class="ui circular button blue meet-up "><i class="clock outline icon"></i> MeetUp</div>
                         <div style="display:none" class="ui circular button red rejected-s"><i class="cancel icon"></i>Rejected <i class="label">12</i> </div>
@@ -61,8 +61,64 @@
                     @if (isset($edit))
                       @include('partials/appEditForm')
                     @else
-                      <div class="">
-                        <button type="button" class="ui button red app-status hide"></button>
+                      <div class="details-body" style="background:white">
+                        <div class="item">
+                          <h4 class="ui horizontal divider header">
+                            <i class="bar chart icon"></i>
+                            Application Name
+                          </h4>
+                          <strong>{{$appDetails->name}}</strong>
+                        </div>
+
+                        <div class="item">
+                          <h4 class="ui horizontal divider header">
+                            <i class="map marker alternate icon"></i>
+                            Application Location
+                          </h4>
+                          <strong>{{$appDetails->location}}</strong>
+                        </div>
+
+                        <div class="item">
+                          <h4 class="ui horizontal divider header">
+                            <i class="warehouse icon"></i>
+                            Application type
+                          </h4>
+                          <strong>{{$appDetails->type}}</strong>
+                        </div>
+
+                        <div class="item">
+                          <h4 class="ui horizontal divider header">
+                            <i class="thermometer half icon"></i>
+                            Application Status
+                          </h4>
+                          <strong class="ui red app-status hide">{{$appDetails->type}}</strong>
+                        </div>
+
+                        <div class="item">
+                          <h4 class="ui horizontal divider header">
+                            <i class="picture icon"></i>
+                            Application Working Drawings
+                          </h4>
+                          @php
+                            $filed=['site_plan','location_plan','floor_plan','front_elevation','rear_elevation','side_elevation','roof_plan']
+                          @endphp
+                          <div class="row">
+                            @for ($i=0; $i < 7; $i++)
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href="/storage/uploads/workingDrawings/{{$appDetails->$filed[$i] }}">
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">{{$filed[$i]}}<h4/>
+                                  <h4 class="mobile">{{$filed[$i]}}<h4/>
+                                    <img src="/storage/uploads/workingDrawings/{{$appDetails->$filed[$i] }}" alt="{{$filed[$i]}}" width="100%">
+                                  </div>
+                                </div>
+                              </a>
+                              @endfor
+                          </div>
+                          {{-- <strong class="ui red app-status hide">{{$appDetails->type}}</strong> --}}
+                        </div>
+
+
                       </div>
                       <br>
                       <br>
@@ -97,6 +153,8 @@
                       </div>
                     </div>
 
+
+
                 @include('partials/calculator')
 
 
@@ -107,6 +165,16 @@
                 </div>
 
               </div>
+
+
+              {{-- Chat Div --}}
+
+              @include('partials/chat')
+
+              {{-- End Chat Div --}}
+
+
+
              </div>
 
          <br><br>

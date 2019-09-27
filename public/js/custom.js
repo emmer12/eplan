@@ -57,6 +57,7 @@
       })
     }
   }
+
   var fileOnchangeHandler={
     init:function() {
       this.catchDom();
@@ -81,13 +82,29 @@
    reader.readAsDataURL(this.files[0]);
  }
 }
-  fileOnchangeHandler.init();
   ajaxCall.init();
+  fileOnchangeHandler.init();
 })()
 
 /*----------------
     Preloader
 ------------------*/
+$(".chat-div .action,.mobile-action").click(function () {
+  var body=$(".chat-div .body");
+  body[0].scrollTop=body[0].scrollHeight;
+  var icon=$(this).find("i")
+  var elem=$(".chat-div");
+  icon.addClass("minus")
+  if (icon.hasClass("angle up")) {
+    elem.addClass("added");
+    icon.removeClass("angle up")
+    icon.addClass("minus")
+  }else {
+    elem.removeClass("added")
+    icon.removeClass("minus")
+    icon.addClass("angle up")
+  }
+})
 var win = $(window);
 win.on('load', function() {
     $('.loader-custom').fadeOut('slow');
@@ -120,7 +137,12 @@ $('.message .close')
     wow js active
 --------------------*/
 new WOW().init();
-
+/*------------
+   venobox
+-------------- */
+var veno_box = $('.venobox');
+veno_box.venobox();
+/*-----------------
 
 
 $(".dashboard-side .item").click(function () {
@@ -225,6 +247,10 @@ $(".recived-app").click(function() {
   })
   .modal('show')
 ;
+})
+
+$(".paygoclient").click(function () {
+  $('.small.modal').modal('show');
 })
 
 $(".approve-app").click(function() {

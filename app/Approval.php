@@ -15,4 +15,9 @@ class Approval extends Model
       return $this->hasOne('App\Received');
     }
 
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedbacks::class,"application_id");
+    }
+
 }

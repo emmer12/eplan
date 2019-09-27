@@ -115,7 +115,39 @@
   </div>
 </div>
 
+<div class="ui small modal">
+  <div class="header">Header
+    <div class="ui cancel  right floated"><i class="floated cancel right times icon"></i></div>
 
+  </div>
+  <div class="content">
+    <div class="ui placeholder segment">
+      <div class="ui two column stackable center aligned grid">
+        <div class="ui vertical divider">Or</div>
+        <div class="middle aligned row">
+          <div class="column">
+            <div class="ui icon header">
+              <i class="world icon"></i>
+              Pay Online
+            </div>
+            <div class="ui primary button">
+              PayNow
+            </div>
+          </div>
+          <div class="column">
+            <div class="ui icon header">
+              <i class="file icon"></i>
+              Submit Offline Payment
+            </div>
+            <div class="ui primary button">
+              Submit
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {{-- Meet Up modal --}}
 
 <div class="ui basic meet-up-modal modal">

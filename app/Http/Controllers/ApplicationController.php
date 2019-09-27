@@ -86,7 +86,7 @@ public function reject(Request $request)
     $post=new Feedbacks();
     $post->messages=$request->input("msg");
     $post->application_id=$request->input("appId");
-    $post->user_id=$request->input("userId");
+    $post->user_id=auth()->user()->id;
     $post->type="Rejected";
     $post->save();
     Approval::where('id',$request->input("appId"))->update(['status'=>'Rejected']);
@@ -126,6 +126,33 @@ public function meetup(Request $request)
     ]);
   }
 }
+
+public function getChat(Request $request)
+{
+
+    if ($request->ajax()) {
+      $msg=Approval::find($request->input('appId'))->feedbacks()->get();
+      return response([
+        'status'=>"success",
+        'msg'=>$msg
+      ]);
+    }
+}
+
+public function feedbackChat(Request $request)
+{
+  if ($request->ajax()) {
+      $post=new Feedbacks();
+      $post->messages=$request->input("msg");
+      $post->application_id=$request->input("appId");
+      $post->user_id=auth()->user()->id;
+      $post->type="Chat";
+      $post->save();
+      return response([
+        'status'=>"success",
+      ]);
+    }
+  }
 
 
 }

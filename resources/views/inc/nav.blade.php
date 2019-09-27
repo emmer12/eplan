@@ -59,7 +59,7 @@
                     <a href="#" style="font-size:14px;font-weight:700">{{ Auth::user()->username }}</a>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="mail.html">Inbox</a>
+                        <a class="item" href="{{route("dashboard.redirect")}}">Dashboard</a>
                         <a class="item" href="profile.html">Profile</a>
                         <a class="item" href="settings.html">Settings</a>
                         <div class="ui divider"></div>
