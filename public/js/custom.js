@@ -67,6 +67,7 @@
       this.$el=$(".file-handler");
       this.$img=this.$el.find("img")
       this.$input=this.$el.find("input");
+      this.$icon=this.$el.find("i");
     },
     bindEvent:function() {
       this.$input.on("change",this.handleFileChange)
@@ -76,7 +77,10 @@
    if (this.files && this.files[0]) {
      var reader=new FileReader();
      reader.onload=function(e){
+       fileOnchangeHandler.$img.fadeIn();
+       fileOnchangeHandler.$icon.fadeOut();
        fileOnchangeHandler.$img.attr('src',e.target.result)
+
      }
    }
    reader.readAsDataURL(this.files[0]);
@@ -248,7 +252,9 @@ $(".recived-app").click(function() {
   .modal('show')
 ;
 })
-
+$(".cancelmod").click(function () {
+  $('.opay').modal('hide')
+})
 $(".paygoclient").click(function () {
   $('.small.modal').modal('show');
 })

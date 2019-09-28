@@ -115,10 +115,9 @@
   </div>
 </div>
 
-<div class="ui small modal">
-  <div class="header">Header
-    <div class="ui cancel  right floated"><i class="floated cancel right times icon"></i></div>
-
+<div class="ui small modal opay">
+  <div class="header ">Header
+      <div class="ui basic cancel cancelmod" style="float:right"><i class="times icon"></i></div>
   </div>
   <div class="content">
     <div class="ui placeholder segment">
@@ -136,10 +135,16 @@
           </div>
           <div class="column">
             <div class="ui icon header">
-              <i class="file icon"></i>
-              Submit Offline Payment
+              <form class="file-handler" action="index.html" method="post">
+                <label for="pReceipt">
+                  <img src="" alt="" width="100%">
+                  <i class="file icon"></i>
+                </label>
+                <input type="file" name="paymentReceipt" id="pReceipt" class="hide" value="">
+                Submit Offline Payment
+              </form>
             </div>
-            <div class="ui primary button">
+            <div class="ui primary button submitOffline">
               Submit
             </div>
           </div>
