@@ -137,6 +137,12 @@ $('.message .close')
     ;
   });
 
+
+  $(".submitOffline").click(function () {
+    $(this).addClass("loading");
+    $(".paid").submit();
+  })
+
 /*------------------
     wow js active
 --------------------*/

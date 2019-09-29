@@ -134,14 +134,17 @@
             </div>
           </div>
           <div class="column">
-            <div class="ui icon header">
-              <form class="file-handler" action="index.html" method="post">
+            <div class="ui icon header loading">
+              <form class="file-handler paid loading" action="{{route("make.payment")}}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
                 <label for="pReceipt">
                   <img src="" alt="" width="100%">
                   <i class="file icon"></i>
                 </label>
-                <input type="file" name="paymentReceipt" id="pReceipt" class="hide" value="">
-                Submit Offline Payment
+                <input type="hidden" name="type" value="offline">
+                <input type="hidden" name="appId" value="{{$appDetails->id}}">
+                <input type="file" name="pReceipt" id="pReceipt" class="hide" value="">
+                 Submit Offline Payment
               </form>
             </div>
             <div class="ui primary button submitOffline">

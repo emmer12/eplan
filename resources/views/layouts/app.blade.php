@@ -26,6 +26,7 @@
     {{-- <link href="{{ asset('css/richtext.min.css') }}" rel="stylesheet"> --}}
     {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('js/jquery-1.12.0.min.js') }}"></script>
+    <link rel="shortcut icon" href="{{asset('images/ficon.png')}}">
 
 </head>
 <body>

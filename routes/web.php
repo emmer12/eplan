@@ -156,6 +156,13 @@ Route::group(['middleware'=>'auth'],function () {
 
         ]);
 
+        Route::post('/payment/transaction',[
+            'uses'=>'PaymentController@payment',
+            'as'=>'make.payment',
+            'middleware'=>'roles',
+            'roles'=>['Public','AreaOfficer']
+          ]);
+
     });
 
 

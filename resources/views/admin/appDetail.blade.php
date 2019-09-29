@@ -13,6 +13,19 @@
                   @include('admin/drawers/public')
                 </div>
                 <div class="col-xs-12 col-md-8 dashboard-content" style="background:white;padding:10px">
+                  @if (count($errors) > 0)
+                    @foreach ($errors->all() as $error)
+                      <div class="ui message red">{{$error}}</div>
+                      <script type="text/javascript">
+                      alert("error Occure")
+                      </script>
+                    @endforeach
+                  @endif
+                  @if (session('msg'))
+                    <div class="ui message green">
+                        {{session('msg')}}
+                    </div>
+                  @endif
                   <div class="app-details-containder " style="width:100%">
                     <div class="feedback shadow-2" style="height:50px">
                       <div class="ui right floated icon button feedbacks circular"> <i class="arrow up icon" style="color:inherit"></i> </div>
