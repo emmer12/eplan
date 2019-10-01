@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-  @section('content')
+
+@section('content')
         <br><br>
         <style media="screen">
           .hide-s{

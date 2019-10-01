@@ -138,9 +138,43 @@ $('.message .close')
   });
 
 
-  $(".submitOffline").click(function () {
+  $(".submitOffline").click(function (e) {
+    e.preventDefault();
+    let formdata=new FormData();
+    let file=$("#pReceipt")[0];
+    let message=$(".msg");
+    let type=$("input[name=type]").val();
+    let token=$(".paid").find($("input[name=_token]")).val();
+    let appId=$("input[name=appId]").val();
     $(this).addClass("loading");
-    $(".paid").submit();
+    if (file.length==0) {
+      message.text("Please choose a file to upload").addClass('red').fadeIn();
+      $(this).addClass("loading");
+    }else{
+      formdata.append("pReceipt",file)
+      formdata.append("type",type)
+      formdata.append("_token",token)
+      formdata.append("appId",appId)
+      $.ajax({
+        method:"POST",
+        url:"/payment/transaction",
+        cache:false,
+        contentType:false,
+        processData:false,
+        data:formdata,
+        success:function(data) {
+          if (data.success) {
+           $(this).bind(this).removeClass("loading");
+           message.text(data.msg).addClass('green').fadeIn();
+          }
+        },
+        error:function(err){
+          $(this).removeClass("loading");
+           message.text("Opps Something went wrong make sure the file is in (jpg,png,jpeg) format").addClass('red').fadeIn();
+          
+        }
+      })
+    }
   })
 
 /*------------------

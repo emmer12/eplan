@@ -1,6 +1,5 @@
 {{-- Recieved Modal --}}
 
-
 <div class="ui received modal">
   <i class="close icon"></i>
   <div class="ui header">
@@ -118,7 +117,8 @@
 <div class="ui small modal opay">
   <div class="header ">Header
       <div class="ui basic cancel cancelmod" style="float:right"><i class="times icon"></i></div>
-  </div>
+    </div>
+    <div class="ui message msg hide"></div>
   <div class="content">
     <div class="ui placeholder segment">
       <div class="ui two column stackable center aligned grid">
