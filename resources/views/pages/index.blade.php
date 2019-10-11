@@ -70,15 +70,17 @@
           <div class="ui status-checker-m modal mini">
             <div class="header">Status Checker</div>
             <div class="content">
-              <div class="ui form">
+              <form class="ui form checker" action="" method="post">
+              <div class="">
                 <div class="field">
                   <label>Application Id</label>
-                  <input type="number" name="appId" required placeholder="Enter Your application Id" value="">
+                  <input type="number" name="appId" required placeholder="Enter Your application Id" value=""><br>
+                  <div class="actions"><br>
+                    <button type="submit" class="ui button">Check</button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="actions">
-              <div class="ui cancel button">Cancel</div>
+            </form>
             </div>
           </div>
 

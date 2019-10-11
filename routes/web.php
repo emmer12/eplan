@@ -45,6 +45,7 @@ Route::post('/admin/dashboard/blog','BlogController@create')->name('admin-storeB
 Route::post('/admin/action','ApprovalController@approvalAction')->name('approval.action');
 
 Route::post('/requestApproval','ApprovalRequestsController@applyApproval')->name('request.approval');
+Route::post('/checker','UserController@checker')->name('application.checker');
 Route::any('/updateApproval/{id}','ApprovalRequestsController@editApproval')->name('edit.approval');
 
 

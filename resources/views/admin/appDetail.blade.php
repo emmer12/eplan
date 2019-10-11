@@ -3,7 +3,6 @@
 
 @section('content')
         <br><br>
-        Hello
         <style media="screen">
           .hide-s{
             display: none

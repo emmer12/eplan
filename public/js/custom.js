@@ -100,6 +100,24 @@ $(".check_stutus").click(function () {
   $('.ui.modal.status-checker-m').modal('show');
 })
 
+$(".checker").submit(function (e) {
+  e.preventDefault();
+  $.ajax({
+    method:"POST",
+    url:"/checker",
+    cache:false,
+    contentType:false,
+    processData:false,
+    data:new FormData(this),
+    success:function(data) {
+      console.log(data);
+    },
+    error:function (e) {
+      console.log(e);
+    }
+})
+})
+
 /*----------------
     Preloader
 ------------------*/
