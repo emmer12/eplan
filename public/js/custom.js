@@ -1,4 +1,9 @@
 (function() {
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+})
   var ajaxCall={
     init:function() {
       this.catchDom();
@@ -90,6 +95,11 @@
   fileOnchangeHandler.init();
 })()
 
+
+$(".check_stutus").click(function () {
+  $('.ui.modal.status-checker-m').modal('show');
+})
+
 /*----------------
     Preloader
 ------------------*/
@@ -137,41 +147,43 @@ $('.message .close')
     ;
   });
 
-
-  $(".submitOffline").click(function (e) {
+  $(".paid").submit(function (e) {
     e.preventDefault();
-    let formdata=new FormData();
-    let file=$("#pReceipt")[0];
+
+    let file=$("#pReceipt")[0].files;
     let message=$(".msg");
     let type=$("input[name=type]").val();
     let token=$(".paid").find($("input[name=_token]")).val();
     let appId=$("input[name=appId]").val();
     $(this).addClass("loading");
+    $('.submitOffline').addClass("loading");
     if (file.length==0) {
+      $('.submitOffline').removeClass("loading");
       message.text("Please choose a file to upload").addClass('red').fadeIn();
-      $(this).addClass("loading");
     }else{
-      formdata.append("pReceipt",file)
-      formdata.append("type",type)
-      formdata.append("_token",token)
-      formdata.append("appId",appId)
+      // formdata.append("pReceipt",file)
+      // formdata.append("type",type)
+      // formdata.append("_token",token)
+      // formdata.append("appId",appId)
       $.ajax({
         method:"POST",
         url:"/payment/transaction",
         cache:false,
         contentType:false,
         processData:false,
-        data:formdata,
+        data:new FormData(this),
         success:function(data) {
           if (data.success) {
-           $(this).bind(this).removeClass("loading");
+          $(".paid i").fadeIn();
+          $(".paid img").fadeOut();
+          $('.submitOffline').removeClass("loading");
            message.text(data.msg).addClass('green').fadeIn();
           }
         },
         error:function(err){
           $(this).removeClass("loading");
            message.text("Opps Something went wrong make sure the file is in (jpg,png,jpeg) format").addClass('red').fadeIn();
-          
+
         }
       })
     }
@@ -186,19 +198,33 @@ new WOW().init();
 -------------- */
 var veno_box = $('.venobox');
 veno_box.venobox();
-/*-----------------
+/*-----------------*/
 
+$(".dashboard-side .item.calcultor-s ").click(function () {
+  $(".show-calcultor-contain").fadeIn()
+  // $('.item').removeClass("active");
+  // $(".show").fadeOut()
+  // if ($(".bar-for-side .menu i").hasClass('added')) {
+  //   $(".dashboard-side").animate({'left':'-400px'})
+  //   $(".overlay").fadeOut();
+  // }
+  // var active=$(this).attr("data");
+  // $(".show-"+active).addClass('animated bounceInUp').fadeIn();
+  // $(this).addClass("active");``
 
-$(".dashboard-side .item").click(function () {
-  $('.item').removeClass("active");
-  $(".show").fadeOut()
-  if ($(".bar-for-side .menu i").hasClass('added')) {
-    $(".dashboard-side").animate({'left':'-400px'})
-    $(".overlay").fadeOut();
+})
+
+$('.rejected-s').hover(function () {
+   $('.rejected-mesaage').slideDown();
+
+  }, function () {
+   $('.rejected-mesaage').slideUp();
+
   }
-  var active=$(this).attr("data");
-  $(".show-"+active).addClass('animated bounceInUp').fadeIn();
-  $(this).addClass("active");
+);
+
+$(".show-calcultor-contain .cancel").click(function () {
+  $(".show-calcultor-contain").fadeOut()
 
 })
 
@@ -226,14 +252,14 @@ function calculate(length,breadth,rate,height) {
   var inspection=1000;
   var total=total_accessment+allocation+inspection;
    showAccessment(total_accessment,allocation,inspection,total)
-   $('.ui.modal').modal('show');
+   $('.ui.modal.calculator-show').modal('show');
    console.log(total_accessment);
 
 }
 function validateInput($field) {
   var errors=[];
   for (var i = 0; i < $field.length; i++) {
-    if ($field[i].value=="") {
+    if ($field[i].value==""){
       errors.push($field[i])
     }
   }
@@ -241,10 +267,10 @@ function validateInput($field) {
   return errors
 }
 function showAccessment(total_accessment,allocation,inspection,total) {
-  $(".inspection").html("&#x20A6;"+inspection);
-  $(".allocation").html("&#x20A6;"+allocation);
-  $(".total_accessment").html("&#x20A6;"+total_accessment);
-  $(".total").html(total);
+  $(".inspection_cal").html("&#x20A6;"+inspection);
+  $(".allocation_cal").html("&#x20A6;"+allocation);
+  $(".total_accessment_cal").html("&#x20A6;"+total_accessment);
+  $(".total_cal").html("&#x20A6;"+total);
 }
 $(".calcultor .rate").on("change",function() {
   var rate_selected=$(this).val();
@@ -254,15 +280,19 @@ $(".calcultor .rate").on("change",function() {
 })
 $(".calcultor .done").click(function (event){
   event.preventDefault();
-  var length=$("input[name=length]").val();
-  var breadth=$("input[name=breadth]").val();
-  var rate=$("input[name=rate]").val();
-  var height=$("input[name=height]").val();
+
+  var length=$(".calcultor-form input[name=length]").val();
+  var breadth=$(".calcultor-form input[name=breadth]").val();
+  var rate=$(".calcultor-form input[name=rate]").val();
+  var height=$(".calcultor-form input[name=height]").val();
   $(".calcultor-form").addClass('loading');
-  if (validateInput($("input[type=number]")).length>0) {
+  if (validateInput($(".calcultor-form input[type=number]")).length>0) {
     console.log("some field are empty");
+     $(".calcultor-form").removeClass('loading');
+    $(".calcultor .msg").text("some field are empty").fadeIn()
     return
   }
+  $(".calcultor .msg").fadeOut();
   setTimeout(function() {
     $(".calcultor-form").removeClass('loading');
     calculate(length,breadth,rate,height)
@@ -307,6 +337,25 @@ $(".approve-app").click(function() {
   .modal('setting', 'transition',"drop")
   .modal('show')
 ;
+})
+
+$(".approve-yes").click(function () {
+  var appId=$(this).attr('data-appId')
+  $.ajax({
+    type:"POST",
+    url:"/admin/approve",
+    cache:false,
+    data:{'appId':appId},
+    success:function(data) {
+      if (data.success) {
+        $(".msg").html(data.success+" <i class='check icon'><i>").fadeIn();
+        setTimeout(function() {
+          window.location.reload()
+        },3000)
+      }
+      console.log(data);
+    }
+  })
 })
 
 // $(".meetup").click(function() {
@@ -508,6 +557,38 @@ $(document).ready(function(){
   $('.shape').shape();
   $('.ui.modal').modal();
 
+  $(".ui.form.calculator-form").form(
+    {
+      fields:{
+        length:{
+          identifier: 'length',
+          rules:[
+            {
+              type:'empty',
+              prompt:"Please enter your length value"
+            }
+          ]
+        },
+        breadth:{
+          identifier: 'breadth',
+          rules:[
+            {
+              type:'empty',
+              prompt:"Please enter your breadth value"
+            }
+          ]
+        },
+        height:{
+          identifier: 'height',
+          rules:[
+            {
+              type:'empty',
+              prompt:"Please enter your height value"
+            }
+          ]
+        },
+      }
+      })
 
 $(".ui.form").form(
   {

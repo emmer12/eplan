@@ -99,15 +99,16 @@
     <i class="checkmark icon"></i>
     Approve
   </div>
+  <div class="ui message green msg hide"></div>
   <div class="content">
-    <p>Are are about to give approval to this application, click Approve to continue</p>
+    <p>You are about to give approval to this application, click Approve to continue</p>
   </div>
   <div class="actions">
     <div class="ui red basic cancel inverted button">
       <i class="remove icon"></i>
       No
     </div>
-    <div class="ui green ok inverted button">
+    <div class="ui green inverted button approve-yes" data-appId="{{$appDetails->id}}">
       <i class="checkmark icon"></i>
       Yes
     </div>
@@ -115,45 +116,62 @@
 </div>
 
 <div class="ui small modal opay">
-  <div class="header ">Header
+  <div class="header ">Payment
       <div class="ui basic cancel cancelmod" style="float:right"><i class="times icon"></i></div>
     </div>
     <div class="ui message msg hide"></div>
   <div class="content">
-    <div class="ui placeholder segment">
-      <div class="ui two column stackable center aligned grid">
-        <div class="ui vertical divider">Or</div>
-        <div class="middle aligned row">
-          <div class="column">
-            <div class="ui icon header">
-              <i class="world icon"></i>
-              Pay Online
-            </div>
-            <div class="ui primary button">
-              PayNow
-            </div>
+      @if ($role=="AreaOfficer")
+          @if (count($appDetails->payment)<1)
+              <div class="ui message orange">payment has not been made</div>
+          @else
+            <h4 class="header">Type of Payment ::{{$appDetails->payment->type}}</h4>
+            <div>
+            <img src="{{asset('storage/uploads/receipts/'.$appDetails->payment->upload_url.'')}}" alt="" width="100%">
+            <div class="ui buttons">
+                <div class="ui button green">Accept</div>
+                <div class="ui button red">Reject</div>
+              </div>
           </div>
-          <div class="column">
-            <div class="ui icon header loading">
-              <form class="file-handler paid loading" action="{{route("make.payment")}}" method="post" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <label for="pReceipt">
-                  <img src="" alt="" width="100%">
-                  <i class="file icon"></i>
-                </label>
-                <input type="hidden" name="type" value="offline">
-                <input type="hidden" name="appId" value="{{$appDetails->id}}">
-                <input type="file" name="pReceipt" id="pReceipt" class="hide" value="">
-                 Submit Offline Payment
-              </form>
+          @endif
+
+          @else
+          <div class="ui placeholder segment">
+              <div class="ui two column stackable center aligned grid">
+                <div class="ui vertical divider">Or</div>
+                <div class="middle aligned row">
+                  <div class="column">
+                    <div class="ui icon header">
+                      <i class="world icon"></i>
+                      Pay Online
+                    </div>
+                    <div class="ui primary button">
+                      PayNow
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="ui icon header loading">
+                      <form class="file-handler paid loading" action="{{route("make.payment")}}" method="post" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <label for="pReceipt">
+                          <img src="" alt="" width="100%">
+                          <i class="file icon"></i>
+                        </label>
+                        <input type="hidden" name="type" value="offline">
+                        <input type="hidden" name="appId" value="{{$appDetails->id}}">
+                        <input type="file" name="pReceipt" id="pReceipt" class="hide" value="">
+                         Submit Offline Payment
+                      </br>
+                         <button type="submit" class="ui primary button submitOffline">
+                           Submit
+                         </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="ui primary button submitOffline">
-              Submit
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      @endif
   </div>
 </div>
 {{-- Meet Up modal --}}
@@ -163,49 +181,51 @@
     <i class="clock outline icon"></i>
     MeetUp
   </div>
-  @if ($received->meetup_date==null)
-    <div class="content">
-      <p>Are are about to give approval to this application, click <i class="ui label">Meet Up</i> to set the appointment</p>
-      <form class="ui form" action="index.html" method="post">
-        <div class="msg">
+    @if ($received)
+      @if ($received->meetup_date==null)
+        <div class="content">
+          <p>Are are about to give approval to this application, click <i class="ui label">Meet Up</i> to set the appointment</p>
+          <form class="ui form" action="index.html" method="post">
+            <div class="msg">
 
+            </div>
+            {{ csrf_field() }}
+            <input type="hidden" name="appId" value="{{$appDetails->id}}">
+            <input type="hidden" name="time" value="{{$received->meetup_time}}">
+            <div class="ui radio checkbox">
+              <input type="radio" name="meet-up-time" value="{{$received->date->date1 }}">
+              <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date1 }} </label>
+            </div><br><br>
+            <div class="ui radio checkbox">
+              <input type="radio" name="meet-up-time" value="{{$received->date->date2 }}">
+              <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date2 }}</label>
+            </div><br><br>
+            <div class="ui radio checkbox">
+              <input type="radio" name="meet-up-time" value="{{$received->date->date3 }}">
+              <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date3 }}</label>
+            </div><br>
+
+            <h5>The inspection time is
+              <div class="ui label">
+                <i class="clock icon"></i>
+                {{$received->meetup_time }}
+              </div>
+            </h5>
+
+          </form>
         </div>
-        {{ csrf_field() }}
-        <input type="hidden" name="appId" value="{{$appDetails->id}}">
-        <input type="hidden" name="time" value="{{$received->meetup_time}}">
-        <div class="ui radio checkbox">
-          <input type="radio" name="meet-up-time" value="{{$received->date->date1 }}">
-          <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date1 }} </label>
-        </div><br><br>
-        <div class="ui radio checkbox">
-          <input type="radio" name="meet-up-time" value="{{$received->date->date2 }}">
-          <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date2 }}</label>
-        </div><br><br>
-        <div class="ui radio checkbox">
-          <input type="radio" name="meet-up-time" value="{{$received->date->date3 }}">
-          <label style="color:#007478"><i class="calendar check icon"></i> {{$received->date->date3 }}</label>
-        </div><br>
-
-        <h5>The inspection time is
-          <div class="ui label">
-            <i class="clock icon"></i>
-            {{$received->meetup_time }}
+        <div class="actions">
+          <div class="ui red basic cancel inverted button">
+            <i class="remove icon inherit"></i>
+            Close
           </div>
-        </h5>
-
-      </form>
-    </div>
-    <div class="actions">
-      <div class="ui red basic cancel inverted button">
-        <i class="remove icon inherit"></i>
-        Close
-      </div>
-      <div class="ui green ok inverted button meet">
-        <i class="checkmark icon inherit"></i>
-        Meet Up
-      </div>
-    </div>
-    @else
+          <div class="ui green ok inverted button meet">
+            <i class="checkmark icon inherit"></i>
+            Meet Up
+          </div>
+        </div>
+        @else
+    @endif
       <h4>
         The <b>Meet up</b> time as been schedule to be  <span class="ui label"><i class="calendar outline icon"></i>{{ $received->meetup_date }}</span> by <span class="ui label"><i class="clock outline icon"></i>{{ $received->meetup_time }}</span>
       </h4>

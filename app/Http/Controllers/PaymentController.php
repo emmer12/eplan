@@ -11,9 +11,9 @@ class PaymentController extends Controller
     {
       if ($request->ajax()){
         if ($request->input("type")=="offline") {
-          // $this->validate($request,[
-          //   'pReceipt'=>'required|image|max:2999',
-          // ]);
+          $this->validate($request,[
+            'pReceipt'=>'required|image|mimes:jpeg,png,jpg|max:2999',
+          ]);
         
           if ($request->hasFile('pReceipt')) {
             $fileWiithExt=$request->file('pReceipt')->getClientOriginalName();

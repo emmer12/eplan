@@ -145,8 +145,9 @@
             if(status=='PayGo') {
               approvalAjax.$paygo.removeClass("loading")
               $(".paygoclient").fadeIn();
-              $(".meet-up").fadeIn();
+             // $(".meet-up").fadeIn();
               $(".app-fee").fadeIn();
+              $(".rejected-s").fadeOut();
             }
             if (status=="Received") {
               $(".meet-up").fadeIn();
@@ -155,6 +156,10 @@
             if (status=="MeetUp") {
               $(".meet-up").fadeIn();
               $(".app-fee").fadeIn();
+            }
+            if (status=="Approved") {
+              $(".approved").fadeIn();
+              $(".print").fadeIn();
             }
           }
 
@@ -176,6 +181,7 @@
       this.$id=this.$elF.find($("input[name=appId]"));
       this.$userId=this.$elF.find($("input[name=userId]"));
       this.$msg=this.$elF.find(".msg");
+
     },
     bindEvent:function() {
       this.$paygo.on("click",this.paygo)
@@ -253,6 +259,7 @@
       })
     },
     paygo:function() {
+      console.log("dffdf");
       var appId=$(this).attr("data-id");
       var token=$(this).attr("data-token");
       approvalAjax.$paygo.addClass("loading")

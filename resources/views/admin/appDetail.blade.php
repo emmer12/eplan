@@ -8,11 +8,16 @@
             display: none
           }
         </style>
-            <div class="container">
+      <div class="container {{ $appDetails->status =="Rejected" ? " body-error" : ""}}">
               <div class="row">
                 <div class="col-xs-12 col-md-4">
-                  @include('admin/drawers/public')
+                  @if ($role=="AreaOfficer")
+                    @include('admin/drawers/officials')
+                    @else
+                      @include('admin/drawers/public')
+                  @endif
                 </div>
+
                 <div class="col-xs-12 col-md-8 dashboard-content" style="background:white;padding:10px">
                   @if (count($errors) > 0)
                     @foreach ($errors->all() as $error)
@@ -27,7 +32,7 @@
                         {{session('msg')}}
                     </div>
                   @endif
-                  <div class="app-details-containder " style="width:100%">
+                  <div class="app-details-containder show"  style="width:100%;display:block" >
                     <div class="feedback shadow-2" style="height:50px">
                       <div class="ui right floated icon button feedbacks circular"> <i class="arrow up icon" style="color:inherit"></i> </div>
                       @if (isset($edit))
@@ -49,15 +54,24 @@
                         <div style="display:none" class="ui circular button grey paygoclient"> <i class="handshake icon"></i> PayGo</div>
                         <div style="display:none" class="ui circular button green approved "><i class="check icon"></i> Approved</div>
                         <div style="display:none" class="ui circular button blue meet-up "><i class="clock outline icon"></i> MeetUp</div>
-                        <div style="display:none" class="ui circular button red rejected-s"><i class="cancel icon"></i>Rejected <i class="label">12</i> </div>
-                      @else
-                        <div class="ui info message"> <i class="exclamation triangle icon"></i> Application has not been recived yes!!</div>
-                      @endif
-                    </div>
+                        <div style="display:none" class="ui circular button red rejected-s"><i class="cancel icon"></i>Rejected <i class="ui question icon"></i></div>
+                        <div style="display:none" class="ui right floated circular button blue print"><i class="print icon"></i>Print</div>
+                          <div class="rejected-mesaage ui message orange hide" style="position:absolute;z-index:999">
+                              @foreach ($appDetails->feedbacks as $feedback)
+                                  <div >{{$feedback->messages}}</div><hr>
+                              @endforeach
+                          </div>
+                        @else
 
+                    <div class="ui info message"> <i class="exclamation triangle icon"></i> Application has not been recived yes!!</div>
+                    @endif
+                  </div>
 
                     <div class="header shadow-2">
                       <div class="ui items">
+                        <a class="ui orange right ribbon label">
+                          <b>Application ID <i class="hand point right outline icon inherit"></i> {{$appDetails->id}}</b>
+                        </a>
                           <div class="item">
                             <a class="ui tiny image">
                               <img src="/storage/uploads/images/{{$appDetails->user->profile_pic}}" alt="" width="100px" height="100px">
@@ -69,13 +83,14 @@
                               </div>
                             </div>
                           </div>
+
                         </div>
 
                     </div>
                     @if (isset($edit))
                       @include('partials/appEditForm')
                     @else
-                      <div class="details-body" style="background:white">
+                      <div class="details-body details-body-error " style="background:white">
                         <div class="item">
                           <h4 class="ui horizontal divider header">
                             <i class="bar chart icon"></i>
@@ -114,20 +129,80 @@
                             Application Working Drawings
                           </h4>
                           @php
-                            $filed=['site_plan','location_plan','floor_plan','front_elevation','rear_elevation','side_elevation','roof_plan']
+                            $field=['site_plan','location_plan','floor_plan','front_elevation','rear_elevation','side_elevation','roof_plan']
                           @endphp
                           <div class="row">
-                            @for ($i=0; $i < 7; $i++)
+
                               <div class="col-md-4">
-                                <a class="venobox" data-gall="workingDrawingsGallery" href="/storage/uploads/workingDrawings/{{$appDetails->$filed[$i] }}">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->site_plan" : "/storage/uploads/workingDrawings/$appDetails->site_plan" }}>
                                 <div class="wk-preview">
-                                  <h4 class="hover-name">{{$filed[$i]}}<h4/>
-                                  <h4 class="mobile">{{$filed[$i]}}<h4/>
-                                    <img src="/storage/uploads/workingDrawings/{{$appDetails->$filed[$i] }}" alt="{{$filed[$i]}}" width="100%">
+                                  <h4 class="hover-name">Site Plan<h4/>
+                                  <h4 class="mobile">Site Plan<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->site_plan" : "/storage/uploads/workingDrawings/$appDetails->site_plan" }} alt="Site Plan" width="100%">
                                   </div>
-                                </div>
-                              </a>
-                              @endfor
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->location_plan" : "/storage/uploads/workingDrawings/$appDetails->location_plan" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Location Plan<h4/>
+                                  <h4 class="mobile">Location Plan<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->location_plan" : "/storage/uploads/workingDrawings/$appDetails->location_plan" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->floor_plan" : "/storage/uploads/workingDrawings/$appDetails->floor_plan" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Floor Plan<h4/>
+                                  <h4 class="mobile">Floor Plan<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->floor_plan" : "/storage/uploads/workingDrawings/$appDetails->floor_plan" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->front_elevation" : "/storage/uploads/workingDrawings/$appDetails->front_elevation" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Front Elevation<h4/>
+                                  <h4 class="mobile">Front Elevation<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->front_elevation" : "/storage/uploads/workingDrawings/$appDetails->front_elevation" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->rear_elevation" : "/storage/uploads/workingDrawings/$appDetails->rear_elevation" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Rear Elevation<h4/>
+                                  <h4 class="mobile">Rear Elevation<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->rear_elevation" : "/storage/uploads/workingDrawings/$appDetails->rear_elevation" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->side_elevation" : "/storage/uploads/workingDrawings/$appDetails->side_elevation" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Side Elevation<h4/>
+                                  <h4 class="mobile">Side Elevation<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->side_elevation" : "/storage/uploads/workingDrawings/$appDetails->side_elevation" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
+                              <div class="col-md-4">
+                                <a class="venobox" data-gall="workingDrawingsGallery" href={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->roof_plan" : "/storage/uploads/workingDrawings/$appDetails->roof_plan" }}>
+                                <div class="wk-preview">
+                                  <h4 class="hover-name">Roof Plan<h4/>
+                                  <h4 class="mobile">Roof Plan<h4/>
+                                    <img src={{$appDetails->status == "Approved" ? "/approvedPlan/$appDetails->roof_plan" : "/storage/uploads/workingDrawings/$appDetails->roof_plan" }} alt="Site Plan" width="100%">
+                                  </div>
+                                </a>
+                              </div>
+
                           </div>
                           {{-- <strong class="ui red app-status hide">{{$appDetails->type}}</strong> --}}
                         </div>
@@ -147,7 +222,11 @@
                            <div class="ui button teal paygo" data-token="{{csrf_token()}}" data-id="{{$appDetails->id}}"><i class="handshake icon"></i> PayGo</div>
                            <div class="ui button green approve-app"><i class="check icon"></i> Approve</div>
                            @else
-                             <a href="{{route("user.application.edit",$appDetails->id)}}" class="ui button"><i class="edit outline icon"></i> Edit</a>
+                             @if ($appDetails->status=="Approved")
+                               <a class="ui button"><i class="print icon"></i>Print App</a>
+                               @else
+                               <a href="{{route("user.application.edit",$appDetails->id)}}" class="ui button"><i class="edit outline icon"></i> Edit</a>
+                             @endif
                          @endif
                        </div>
                     </div>
@@ -155,44 +234,24 @@
 
                   @include('partials/modals')
 
-                  <div class="show show-calcultor">
-                    <div class="ui icon message">
-                      <i class="calculator icon"></i>
-                      <div class="content">
-                        <div class="header">
-                          <h1>Calcultor</h1>
-                        </div>
-                        <p> <a href="#">Here</a></p>
-                        <p>Please make sure you enter correct value to get correct assessment. this is just to have the idia of the amount you can likely pay</p>
-                      </div>
-                    </div>
-
-
-
-                @include('partials/calculator')
-
-
                 </div>
 
 
+                {{-- Chat Div --}}
 
-                </div>
+                   @include('partials/chat')
+
+                {{-- End Chat Div --}}
+
+
 
               </div>
 
+            <div class="show-calcultor-contain">
 
-              {{-- Chat Div --}}
+              @include('partials/calculator')
 
-              @include('partials/chat')
-
-              {{-- End Chat Div --}}
-
-
-
-             </div>
-
-         <br><br>
-
+            </div>
 
 <script type="text/javascript" src="{{ asset('js/ajaxmodule.js') }}"></script>
 

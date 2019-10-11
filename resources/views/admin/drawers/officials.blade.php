@@ -13,7 +13,7 @@
         <div class="item {{ request()->is('dashboard') ? "active" : ""}}" data="status">
           <i class="shipping fast icon "></i>
           <div class="content">
-            <a href="{{route("areaOfficer.dashboard")}}">
+            <a style="display:block" href="{{route("areaOfficer.dashboard")}}">
               <div class="header">Applications</div>
             </a>
           </div>
@@ -21,7 +21,7 @@
         <div class="item {{ request()->is('dashboard/apply') ? "active" : ""}}" data="" >
           <i class="user icon "></i>
           <div class="content">
-            <a href="#">
+            <a style="display:block" href="#">
               <div class="header ">Analytics</div>
             </a>
           </div>
@@ -29,12 +29,12 @@
         <div class="item {{ request()->is('dashboard/profile*') ? "active" : ""}}">
           <i class="user icon "></i>
           <div class="content">
-            <a href="{{route("user.profile",auth()->user()->id)}}">
+            <a style="display:block" href="{{route("user.profile",auth()->user()->id)}}">
              <div class="header">Profile</div>
            </a>
           </div>
         </div>
-        <div class="item " data="calcultor">
+        <div class="item calcultor-s" data="calcultor">
         <i class="calculator icon "></i>
           <div class="content">
             <div class="header">Assesment Calculator</div>

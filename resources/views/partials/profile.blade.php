@@ -1,7 +1,7 @@
 <div class="profile">
    <div class="">
      <div class="image">
-       <img src="/storage/uploads/images/default.png" alt="">
+       <img src="/storage/uploads/images/{{auth()->user()->profile_pic}}" alt="">
      </div>
      <div class="items">
        <div class="panel raised">

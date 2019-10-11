@@ -8,7 +8,7 @@
                   @include('admin/drawers/officials')
                 </div>
                 <div class="col-xs-12 col-md-8 dashboard-content" style="background:white;padding:10px">
-                  <div class="show show-apply">
+                  <div class="show show-apply ">
                     <div class="ui icon message wow slideInUp">
                       <i class="inbox icon"></i>
                       <div class="content">
@@ -103,7 +103,7 @@
 
                         </div>
                       </div> --}}
-                      <div class="ui segment">
+                      <div class="ui segment show">
                           <div class="ui items filterMode">
                               <div class="ui floating dropdown labeled icon button">
                                   <i class="filter icon"></i>
@@ -155,24 +155,13 @@
                         </div>
 
                       @include('partials/applications')
-                  <div class="show show-calcultor">
-                    <div class="ui icon message">
-                      <i class="calculator icon"></i>
-                      <div class="content">
-                        <div class="header">
-                          <h1>Calcultor</h1>
+                  
+
+                      <div class="show-calcultor-contain">
+
+                          @include('partials/calculator')
+            
                         </div>
-                        <p> <a href="#">Here</a></p>
-                        <p>Please make sure you enter correct value to get correct assessment. this is just to have the idia of the amount you can likely pay</p>
-                      </div>
-                    </div>
-
-                @include('partials/calculator')
-
-
-
-              </div>
-            </div>
 
 
           </div>

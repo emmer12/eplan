@@ -64,7 +64,38 @@
     <hr>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 col-md-4-offset">
+
+        {{-- Modal For Status Checking Start--}}
+
+          <div class="ui status-checker-m modal mini">
+            <div class="header">Status Checker</div>
+            <div class="content">
+              <div class="ui form">
+                <div class="field">
+                  <label>Application Id</label>
+                  <input type="number" name="appId" required placeholder="Enter Your application Id" value="">
+                </div>
+              </div>
+            </div>
+            <div class="actions">
+              <div class="ui cancel button">Cancel</div>
+            </div>
+          </div>
+
+        {{-- Modal For Status Checking End--}}
+
+
+      <div class="col-md-6 wow bounceInLeft">
+        <div class="ui placeholder segment center aligned">
+          <div class="ui icon header">
+            <i class="question icon"></i>
+            Check Your Application Status
+          </div>
+          <div class="ui green button inverted check_stutus">Check</div>
+        </div>
+      </div>
+
+        <div class="col-md-6 wow bounceInRight">
           <div class="ui placeholder segment center aligned">
             <div class="ui icon header">
               <i class="user plus icon"></i>
@@ -73,6 +104,8 @@
             <div class="ui green button inverted">Create Account</div>
           </div>
         </div>
+
+
       </div>
     </div>
 

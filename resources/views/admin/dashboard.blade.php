@@ -105,23 +105,11 @@
                       @include('partials/applications')
                   </div>
 
-                  <div class="show show-calcultor">
-                    <div class="ui icon message">
-                      <i class="calculator icon"></i>
-                      <div class="content">
-                        <div class="header">
-                          <h1>Calcultor</h1>
-                        </div>
-                        <p> <a href="#">Here</a></p>
-                        <p>Please make sure you enter correct value to get correct assessment. this is just to have the idia of the amount you can likely pay</p>
-                      </div>
-                    </div>
+                  <div class="show-calcultor-contain">
 
-                @include('partials/calculator')
-
-
-                </div>
-              </div>
+                      @include('partials/calculator')
+        
+                  </div>
             </div>
 
 

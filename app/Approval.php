@@ -20,4 +20,9 @@ class Approval extends Model
         return $this->hasMany(Feedbacks::class,"application_id");
     }
 
+    public function payment()
+    {
+      return $this->hasOne(Payment::class);        
+    }
+
 }

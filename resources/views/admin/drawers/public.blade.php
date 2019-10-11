@@ -19,7 +19,7 @@
             </a>
           </div>
         </div>
-        <div class="item {{ request()->is('dashboard/apply') ? "active" : ""}}" >
+        <div class="item {{ request()->is('dashboard/apply') ? "active" : ""}}">
           <i class="user icon "></i>
           <div class="content">
             <a href="{{route("user.apply")}}">
@@ -27,7 +27,7 @@
             </a>
           </div>
         </div>
-        <div class="item {{ request()->is('dashboard/profile*') ? "active" : ""}}">
+        <div class="item {{ request()->is('dashboard/profile*') ? "active" : ""}}" >
           <i class="user icon "></i>
           <div class="content">
             <a href="{{route("user.profile",auth()->user()->id)}}">
@@ -35,7 +35,7 @@
            </a>
           </div>
         </div>
-        <div class="item " data="calcultor">
+        <div class="item calcultor-s" data="calcultor">
         <i class="calculator icon "></i>
           <div class="content">
             <div class="header">Assesment Calculator</div>

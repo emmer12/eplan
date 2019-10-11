@@ -19,6 +19,7 @@ Route::get('/inter', function()
 });
 
 
+
 Route::get('/','PagesController@home')->name("page.home");
 //Route::get('/register','UserController@userRegisterView')->name("register.view");
 Route::get('/verifyEmailFirst','Auth\RegisterController@verifyEmailFirst')->name("verifyEmailFirst");
@@ -161,6 +162,13 @@ Route::group(['middleware'=>'auth'],function () {
             'as'=>'make.payment',
             'middleware'=>'roles',
             'roles'=>['Public','AreaOfficer']
+          ]);
+
+          Route::post('/admin/approve',[
+            'uses'=>'ApprovalController@approve',
+            'as'=>'approve',
+            'middleware'=>'roles',
+            'roles'=>['AreaOfficer']
           ]);
 
     });
