@@ -69,7 +69,10 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
           $application=Approval::where('id',$request->input("appId"))->first();
-          return response(['success'=>true,'status'=>$application->status]);
+          if (count($application) < 1) {
+            return response(['success'=>false,'msg'=>"Application with Id : ".$request->input("appId")." not Found"]);
+          }
+           return response(['success'=>true,'status'=>$application->status]);
         }
     }
 

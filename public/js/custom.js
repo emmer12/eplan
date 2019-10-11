@@ -110,7 +110,11 @@ $(".checker").submit(function (e) {
     processData:false,
     data:new FormData(this),
     success:function(data) {
-      console.log(data);
+      if (data.success) {
+        $(".msg").html(`Status Of your applcation is <div class="ui label orange">${data.status}<div>`).addClass('green').fadeIn()
+      }else {
+        $(".msg").text(`${data.msg}`).addClass('red').fadeIn()
+      }
     },
     error:function (e) {
       console.log(e);

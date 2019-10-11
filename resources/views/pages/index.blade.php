@@ -71,6 +71,9 @@
             <div class="header">Status Checker</div>
             <div class="content">
               <form class="ui form checker" action="" method="post">
+                <div class="ui message msg hide">
+
+                </div>
               <div class="">
                 <div class="field">
                   <label>Application Id</label>
